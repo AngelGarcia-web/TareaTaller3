@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primario: #38bdf8; --fondo: radial-gradient(circle at top right, #1e293b, #0f172a); }
+        body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: var(--fondo); font-family: 'Inter', sans-serif; color: white; }
+        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; padding: 40px; width: 400px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; }
+        button { width: 100%; padding: 16px; background: var(--primario); border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        a { color: var(--primario); text-decoration: none; font-size: 14px; display: block; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 style="text-align:center">Crear Cuenta</h2>
+    <form th:action="@{/registro}" th:object="${usuario}" method="post">
+        <input type="text" th:field="*{nombreUsuario}" placeholder="Nombre" required>
+        <input type="text" th:field="*{apellidoUsuario}" placeholder="Apellido" required>
+        <input type="number" th:field="*{edadUsuario}" placeholder="Edad" required>
+        <input type="email" th:field="*{email}" placeholder="Correo" required>
+        <input type="password" th:field="*{password}" placeholder="Contraseña" required>
+        <button type="submit">Registrarse</button>
+    </form>
+    <a th:href="@{/login}">¿Ya tienes cuenta? Inicia sesión</a>
+</div>
+</body>
+</html>

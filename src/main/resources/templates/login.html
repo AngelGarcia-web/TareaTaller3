@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primario: #38bdf8;
+            --primario-brillante: #7dd3fc;
+            --fondo-gradiente: radial-gradient(circle at top right, #1e293b, #0f172a);
+            --cristal-fondo: rgba(255, 255, 255, 0.03);
+            --borde-cristal: rgba(255, 255, 255, 0.1);
+            --texto-atenuado: #94a3b8;
+            --error-fondo: rgba(239, 68, 68, 0.1);
+            --error-texto: #fca5a5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--fondo-gradiente);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .contenedor-login { width: 100%; max-width: 400px; }
+
+        .tarjeta-cristal {
+            background: var(--cristal-fondo);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--borde-cristal);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: entradaEfecto 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        @keyframes entradaEfecto {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .titulo-login { font-size: 28px; font-weight: 800; color: #ffffff; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .subtitulo-login { font-size: 14px; color: var(--texto-atenuado); margin-bottom: 32px; }
+
+        .formulario-autenticacion { display: flex; flex-direction: column; gap: 20px; text-align: left; }
+        .grupo-campo { display: flex; flex-direction: column; gap: 8px; }
+        .etiqueta-formulario { color: #cbd5e1; font-size: 13px; font-weight: 600; margin-left: 4px; }
+
+        .entrada-formulario {
+            width: 100%; padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--borde-cristal);
+            border-radius: 12px; color: white; font-size: 15px; transition: all 0.3s ease;
+        }
+
+        .entrada-formulario:focus {
+            outline: none; background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primario); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        .alerta-error {
+            background: var(--error-fondo); border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--error-texto); padding: 12px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
+        }
+
+        .btn-ingresar {
+            margin-top: 10px; width: 100%; padding: 16px;
+            border: none; border-radius: 12px; background: var(--primario);
+            color: #0f172a; font-size: 16px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ingresar:hover {
+            background: var(--primario-brillante); transform: translateY(-2px);
+        }
+
+        .enlace-registro {
+            display: block; margin-top: 25px; color: var(--texto-atenuado);
+            font-size: 14px; text-decoration: none;
+        }
+
+        .enlace-registro span { color: var(--primario); font-weight: 600; }
+    </style>
+</head>
+<body>
+<div class="contenedor-login">
+    <div class="tarjeta-cristal">
+        <h2 class="titulo-login">Iniciar Sesión</h2>
+        <p class="subtitulo-login">Ingrese sus credenciales</p>
+
+        <div th:if="${param.error}" class="alerta-error">
+            Usuario o contraseña incorrecta
+        </div>
+
+        <form th:action="@{/login}" method="post" class="formulario-autenticacion">
+            <div class="grupo-campo">
+                <label class="etiqueta-formulario">Usuario (Email)</label>
+                <input type="text" name="username" class="entrada-formulario" placeholder="Ingrese su correo" required>
+            </div>
+
+            <div class="grupo-campo">
+                <label class="etiqueta-formulario">Contraseña</label>
+                <input type="password" name="password" class="entrada-formulario" placeholder="Ingrese su contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-ingresar">Ingresar</button>
+        </form>
+
+        <a th:href="@{/registro}" class="enlace-registro">
+            ¿No tienes cuenta? <span>Regístrate aquí</span>
+        </a>
+    </div>
+</div>
+</body>
+</html>

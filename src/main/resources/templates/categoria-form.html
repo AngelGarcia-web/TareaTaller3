@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${modoEdicion} ? 'Editar Categoría' : 'Nueva Categoría'"></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primario: #6366f1;
+            --fondo: #0f172a;
+            --cristal: rgba(255, 255, 255, 0.03);
+            --borde-cristal: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .tarjeta-cristal {
+            background: var(--cristal);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--borde-cristal);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 { text-align: center; margin-bottom: 30px; font-weight: 700; color: #fff; }
+
+        .grupo-formulario { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .entrada-texto, .area-texto {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--borde-cristal);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            transition: 0.3s;
+            box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+        }
+
+        .entrada-texto:focus, .area-texto:focus {
+            outline: none;
+            border-color: var(--primario);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 14px;
+            background: var(--primario);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .btn-enviar:hover {
+            transform: translateY(-2px);
+            background: #4f46e5;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-cancelar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-cancelar:hover { color: #f8fafc; }
+
+        .error-validacion {
+            color: #f87171;
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Estilo para el placeholder */
+        ::placeholder { color: rgba(255, 255, 255, 0.3); }
+    </style>
+</head>
+<body>
+
+<div class="tarjeta-cristal">
+    <h2 th:text="${modoEdicion} ? 'Editar Categoría' : 'Nueva Categoría'"></h2>
+
+    <form th:action="${modoEdicion} ? @{/categoria/actualizar/{id}(id=${categoria.idCategoria})} : @{/categoria/guardar}"
+          th:object="${categoria}" method="post">
+
+        <div class="grupo-formulario">
+            <label>Nombre de la Categoría</label>
+            <input type="text"
+                   th:field="*{nombreCategoria}"
+                   class="entrada-texto"
+                   placeholder="Ej: Electrónica"
+                   required>
+            <div class="error-validacion" th:if="${#fields.hasErrors('nombreCategoria')}" th:errors="*{nombreCategoria}"></div>
+        </div>
+
+        <div class="grupo-formulario">
+            <label>Descripción</label>
+            <textarea th:field="*{descripcionCategoria}"
+                      class="area-texto"
+                      rows="4"
+                      placeholder="Describe brevemente esta categoría..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-enviar" th:text="${modoEdicion} ? 'Actualizar Registro' : 'Guardar Registro'"></button>
+
+        <a th:href="@{/categoria}" class="btn-cancelar">Volver a la lista</a>
+    </form>
+</div>
+
+</body>
+</html>
